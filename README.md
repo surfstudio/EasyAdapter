@@ -19,7 +19,7 @@ Can be used to display dynamic and static data lists.
 ## Add to your module
 Gradle:
 ```
-    implementation "TODO BINTRAY"
+    implementation 'ru.surfstudio.android:easyadapter:1.0.0'
 ```
 
 ## License
