@@ -27,18 +27,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-
-import ru.surfstudio.android.easyadapter.diff.DefaultDiffer;
-import ru.surfstudio.android.easyadapter.diff.async.ApplyLatestAsyncDiffer;
-import ru.surfstudio.android.easyadapter.diff.async.AsyncDiffStrategy;
-import ru.surfstudio.android.easyadapter.diff.async.base.AsyncDiffer;
-import ru.surfstudio.android.easyadapter.diff.base.Differ;
-import ru.surfstudio.android.easyadapter.diff.base.data.DiffCalculationBundle;
-import ru.surfstudio.android.easyadapter.diff.base.data.DiffResultBundle;
-import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
 
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
@@ -69,15 +58,15 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     private boolean infiniteScroll;
 
-    private boolean isAsyncDiffCalculationEnabled = false;
-    private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
-    private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
+    public EasyAdapter() {
+        setHasStableIds(true);
+    }
 
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
     @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         initLayoutManager(recyclerView.getLayoutManager());
     }
@@ -93,9 +82,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * @see RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)
      */
-    @NonNull
     @Override
-    public final RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return supportedItemControllers.get(viewType).createViewHolder(parent);
     }
 
@@ -103,23 +91,13 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @see RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)
      */
     @Override
-    public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int adapterPosition) {
+    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int adapterPosition) {
         int position = getListPosition(adapterPosition);
         BaseItem item = items.get(position);
 
         computeAdditionalItemListParams(item, position, adapterPosition);
 
         item.getItemController().bind(holder, item);
-    }
-
-    @Override
-    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-        super.onViewRecycled(holder);
-        int position = getListPosition(holder.getAdapterPosition());
-        if (position != RecyclerView.NO_POSITION) {
-            BaseItem item = items.get(position);
-            item.getItemController().unbind(holder, item);
-        }
     }
 
     /**
@@ -131,13 +109,22 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * Get BaseItem from items list at certain position
+     * @see RecyclerView.Adapter#getItemId(int)
+     */
+    @Override
+    public final long getItemId(int position) {
+        return getItemStringId(position).hashCode();
+    }
+
+    /**
+     * Get the unique id from item at certain position
      *
      * @param position position of item
      * @return unique item id
      */
-    public final BaseItem getItem(int position) {
-        return items.get(getListPosition(position));
+    public final String getItemStringId(int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemId(item);
     }
 
     /**
@@ -146,32 +133,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @param position position of item
      * @return item's hashcode
      */
-    public final Object getItemHash(int position) {
-        return getItemHashInternal(items, position);
-    }
-
-    /**
-     * Set if {@link DiffUtil} should calculate {@link DiffUtil.DiffResult} asynchronously
-     * <p>
-     * By default, asynchronous {@link DiffUtil.DiffResult} calculation is disabled
-     */
-    public final void setAsyncDiffCalculationEnabled(boolean isAsyncDiffCalculationEnabled) {
-        this.isAsyncDiffCalculationEnabled = isAsyncDiffCalculationEnabled;
-    }
-
-    /**
-     * Set {@link AsyncDiffStrategy} which will be used for asynchronous {@link DiffUtil.DiffResult} calculation
-     * <p>
-     * By default, {@link DiffUtil.DiffResult} calculates using {@link AsyncDiffStrategy#QUEUE_ALL} strategy
-     *
-     * @param asyncDiffStrategy strategy of diff result calculation
-     */
-    public final void setAsyncDiffStrategy(AsyncDiffStrategy asyncDiffStrategy) {
-        if (asyncDiffStrategy == AsyncDiffStrategy.APPLY_LATEST) {
-            asyncDiffer = new ApplyLatestAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
-        } else {
-            asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
-        }
+    public final String getItemHash(int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemHash(item);
     }
 
     /**
@@ -190,16 +154,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     public void setFirstInvisibleItemEnabled(boolean enableFirstInvisibleItem) {
         this.firstInvisibleItemEnabled = enableFirstInvisibleItem;
-    }
-
-    /**
-     *
-     * @see FirstInvisibleItemController
-     *
-     * @return state of the property {@link FirstInvisibleItemController} enabled
-     */
-    public boolean isFirstInvisibleItemEnabled() {
-        return firstInvisibleItemEnabled;
     }
 
     /**
@@ -237,30 +191,20 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * Set the collection of data with itemController and display it in {@link RecyclerView}.
      *
-     * @param newItems   items to display
+     * @param items      items to display
      * @param autoNotify should we need to call {@link #autoNotify()}
      */
-    protected void setItems(@NonNull ItemList newItems, boolean autoNotify) {
-        if (firstInvisibleItemEnabled && (newItems.isEmpty() || newItems.get(0) != firstInvisibleItem)) {
-            newItems.insert(0, firstInvisibleItem);
+    protected void setItems(@NonNull ItemList items, boolean autoNotify) {
+        this.items.clear();
+        if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
+            this.items.add(firstInvisibleItem);
         }
+        this.items.addAll(items);
 
-        if (isAsyncDiffCalculationEnabled) {
-            calculateDiff(asyncDiffer, newItems);
-        } else if (autoNotify) {
-            calculateDiff(defaultDiffer, newItems);
-        } else {
-            dispatchDiffResult(
-                    new DiffResultBundle(
-                            null,
-                            new DiffCalculationBundle(
-                                    newItems,
-                                    Collections.emptyList(),
-                                    Collections.emptyList()
-                            )
-                    )
-            );
+        if (autoNotify) {
+            autoNotify();
         }
+        updateSupportedItemControllers(this.items);
     }
 
     /**
@@ -282,38 +226,26 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return new ItemList(items);
     }
 
-    private void calculateDiff(Differ differ, ItemList newItems) {
-        final List<ItemInfo> newItemInfo = extractRealItemInfo(newItems);
-        final DiffCalculationBundle diffCalculationBundle = new DiffCalculationBundle(newItems, lastItemsInfo, newItemInfo);
-        differ.calculateDiff(diffCalculationBundle);
-    }
-
-    private DiffUtil.Callback createDiffCallback(List<ItemInfo> oldItems, List<ItemInfo> newItems) {
-        return new AutoNotifyDiffCallback(oldItems, newItems);
-    }
-
-    private void dispatchDiffResult(DiffResultBundle diffResultBundle) {
-        final ItemList newItems = diffResultBundle.getItems();
-
-        items.clear();
-        items.addAll(newItems);
-
-        if (isAsyncDiffCalculationEnabled || autoNotifyOnSetItemsEnabled) {
-            final DiffUtil.DiffResult diffResult = diffResultBundle.getDiffResult();
-            Objects.requireNonNull(diffResult);
-            diffResult.dispatchUpdatesTo(this);
-            lastItemsInfo = diffResultBundle.getNewItemInfo();
-        }
-
-        updateSupportedItemControllers(items);
-    }
-
     private void updateSupportedItemControllers(List<BaseItem> items) {
         supportedItemControllers.clear();
         for (BaseItem item : items) {
             BaseItemController itemController = item.getItemController();
             supportedItemControllers.put(itemController.viewType(), itemController);
         }
+    }
+
+    /**
+     * Extract real items info, despite of infinite or ordinary scroll.
+     */
+    private List<ItemInfo> extractRealItemInfo() {
+        int itemCount = items.size();
+        List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
+        for (int i = 0; i < itemCount; i++) {
+            currentItemsInfo.add(new ItemInfo(
+                    getItemStringId(i),
+                    getItemHash(i)));
+        }
+        return currentItemsInfo;
     }
 
     private void initLayoutManager(LayoutManager layoutManager) {
@@ -335,46 +267,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
         }
     }
 
-    /**
-     * Extract real items info, despite of infinite or ordinary scroll.
-     */
-    private List<ItemInfo> extractRealItemInfo() {
-        return extractRealItemInfo(items);
-    }
-
-    private List<ItemInfo> extractRealItemInfo(List<BaseItem> items) {
-        int itemCount = items.size();
-        List<ItemInfo> extractedItemsInfo = new ArrayList<>(itemCount);
-        for (int i = 0; i < itemCount; i++) {
-            extractedItemsInfo.add(
-                    new ItemInfo(
-                            getItemIdInternal(items, i),
-                            getItemHashInternal(items, i)
-                    )
-            );
-        }
-        return extractedItemsInfo;
-    }
-
-    private Object getItemIdInternal(List<BaseItem> items, int position) {
-        BaseItem item = items.get(getListPosition(items, position));
-        return item.getItemController().getItemId(item);
-    }
-
-    private Object getItemHashInternal(List<BaseItem> items, int position) {
-        BaseItem item = items.get(getListPosition(items, position));
-        return item.getItemController().getItemHash(item);
-    }
-
     private int getListPosition(int adapterPosition) {
-        return getListPosition(items, adapterPosition);
-    }
-
-    private int getListPosition(List<BaseItem> items, int adapterPosition) {
-        return getListPositionInternal(items, adapterPosition);
-    }
-
-    private int getListPositionInternal(List<BaseItem> items, int adapterPosition) {
         return infiniteScroll
                 ? adapterPosition % items.size()
                 : adapterPosition;
@@ -465,9 +358,30 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
+     * Content used in unique data checking.
+     */
+    private class ItemInfo {
+        private String id;
+        private String hash;
+
+        ItemInfo(String id, String hash) {
+            this.id = id;
+            this.hash = hash;
+        }
+
+        String getId() {
+            return id;
+        }
+
+        String getHash() {
+            return hash;
+        }
+    }
+
+    /**
      * Empty first element for saving scroll position after notify... calls.
      */
-    private static class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
+    private class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
         @Override
         public BaseViewHolder createViewHolder(ViewGroup parent) {
             ViewGroup.LayoutParams lp = new RecyclerView.LayoutParams(1, 1); // установить размер 1px, иначе проблемы с swipe-to-refresh и drag&drop https://github.com/airbnb/epoxy/issues/74
