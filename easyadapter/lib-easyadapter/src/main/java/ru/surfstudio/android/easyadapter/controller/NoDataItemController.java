@@ -37,8 +37,8 @@ public abstract class NoDataItemController<H extends RecyclerView.ViewHolder>
         extends BaseItemController<H, NoDataItem<H>> {
 
     @Override
-    public Object getItemId(NoDataItem<H> item) {
-        return getTypeHashCode();
+    public String getItemId(NoDataItem<H> item) {
+        return getTypeStringHashCode();
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class NoDataItemController<H extends RecyclerView.ViewHolder>
      * @see BaseItemController#getItemHash(BaseItem)
      */
     @Override
-    public Object getItemHash(NoDataItem<H> item) {
+    public String getItemHash(NoDataItem<H> item) {
         return "0";
     }
 }
