@@ -109,6 +109,7 @@ class GitTree(
      */
     private fun createMirrorNodes(mirrorRevCommits: Iterable<RevCommit>) {
         mirrorNodes.addAll(mirrorRevCommits.map { Node(it) }.toSet())
+        if (mirrorNodes.isEmpty()) throw NoEndsDefineException()
     }
 
     /**

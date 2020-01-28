@@ -1,40 +1,76 @@
-# EasyAdapter
-This project is an evolution of [EasyAdapter](https://github.com/MaksTuev/EasyAdapter).
+# Module Name
 
-This adapter is created to simplify the process of adding complex content to RecyclerView.
-The main goal is to use particular ItemController for each individual item. Controller will define the element's behavior and display it on the View.
+[![Download][build_version_icon]][build_version_link] 
+[![Build Status][build_status_icon]][build_status_link] 
+[![License][license_icon]][license_link] 
+[![Android Standard][android_standard_icon]][android_standard_link]
+[![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
 
-Can be used to display dynamic and static data lists.
+Short module description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
-## Usage
-1. Create instance of [EasyAdapter](easyadapter/src/main/java/ru/surfstudio/android/easyadapter/EasyAdapter.java) with default constructor and pass it to `RecyclerView`
-2. For each type of element in the list, create the typed [controller](easyadapter/src/main/java/ru/surfstudio/android/easyadapter/controller)
-3. Create [ItemList](easyadapter/src/main/java/ru/surfstudio/android/easyadapter/ItemList.java) with pairs "Data + Controller"
-4. Pass filled `ItemList` to `EasyAdapter` through the `setItems()` method.
+## Download
+This library is available through JCenter. 
 
-[Example](easyadapter_sample)
+Add JCenter repository dependency to your root build.gradle: 
 
-[Library](easyadapter)
-
-## Add to your module
-Gradle:
 ```
-    implementation 'ru.surfstudio.android:easyadapter:1.0.0'
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
 ```
+
+And then, add the library dependency to your module: 
+```
+implementation: 'ru.surfstudio.android:$MODULE_NAME$:X.Y.Z'
+``` 
+
+## Getting started
+
+Short code examples: ...
+
+## Surf Android Standard
+
+This library is a subсomponent of [Android Standard Framework][android_standard_link] by [Surf]. This framework contains modules, code snippets and paradigms which helps to build clean and stable android application with minimal effort.
+
+## Further reading
+
+ * [Wiki/FAQ][wiki_link]
+ * [Release Notes][release_notes]
+ * [Issue Tracker][issue_tracker]
 
 ## License
+```  
+Copyright (c) 2018-present, SurfStudio LLC.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
-  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+[build_version_link]: https://bintray.com/surf/maven/easyadapter/_latestVersion
+[build_version_icon]: https://img.shields.io/bintray/v/surf/maven/easyadapter?label=JCenter
+[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Component_Mirroring_Job/
+[build_status_icon]: https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Component_Mirroring_Job
+[license_link]: http://www.apache.org/licenses/LICENSE-2.0
+[license_icon]: https://img.shields.io/badge/license-Apache%202-blue
+[wiki_link]: $WIKI_LINK$
+[release_notes]: /$MODULE_NAME$/RELEASE_NOTES.md
+[issue_tracker]: $ISSUE_TRACKER$
 
-  http://www.apache.org/licenses/LICENSE-2.0
+[android_standard_icon]: https://img.shields.io/badge/Android%20Standard-Repo-brightgreen 
+[android_standard_link]: https://github.com/surfstudio/SurfAndroidStandard
+[surf]: https://surfstudio.ru/
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-```
+[android_arsenal_link]: https://android-arsenal.com/details/1/7290
+[comment]: # (В следующих версиях нужно заменить ссылку на иконку реального статуса)
+[android_arsenal_icon]: https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat
