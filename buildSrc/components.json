@@ -1649,7 +1649,7 @@
       {
         "name": "security",
         "dir": "lib-security",
-        "artifact_name": "",
+        "artifact_name": "security",
         "third_party_dependencies": [
           {
             "name": "com.squareup.okhttp3:logging-interceptor",
@@ -1813,7 +1813,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 16,
+    "unstable_version": 13,
     "stable": false,
     "dir": "template",
     "libs": [],
