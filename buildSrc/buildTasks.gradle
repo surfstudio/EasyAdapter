@@ -86,5 +86,3 @@ task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) //
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
 
 task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
-
-task checkBintrayStableVersionsTask(type: CheckBintrayStableVersionsTask)
