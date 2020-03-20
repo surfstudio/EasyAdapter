@@ -1074,10 +1074,6 @@
             "type": "implementation"
           },
           {
-            "name": "com.crashlytics.sdk.android:crashlytics",
-            "type": "implementation"
-          },
-          {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
           }
@@ -1527,7 +1523,7 @@
   {
     "id": "recycler-decorator",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 2,
     "stable": false,
     "dir": "recycler-decorator",
     "libs": [
