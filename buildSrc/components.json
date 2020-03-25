@@ -442,15 +442,48 @@
         "artifact_name": "core-app",
         "third_party_dependencies": [
           {
+            "name": "androidx.multidex:multidex",
+            "type": "implementation"
+          },
+          {
+            "name": "com.github.anrwatchdog:anrwatchdog",
+            "type": "implementation"
+          },
+          {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
           },
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
           }
         ],
-        "android_standard_dependencies": []
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [],
@@ -653,7 +686,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -1037,6 +1070,14 @@
         "artifact_name": "logger",
         "third_party_dependencies": [
           {
+            "name": "com.jakewharton.timber:timber",
+            "type": "implementation"
+          },
+          {
+            "name": "com.crashlytics.sdk.android:crashlytics",
+            "type": "implementation"
+          },
+          {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
           }
@@ -1080,7 +1121,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1486,7 +1527,7 @@
   {
     "id": "recycler-decorator",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "recycler-decorator",
     "libs": [
