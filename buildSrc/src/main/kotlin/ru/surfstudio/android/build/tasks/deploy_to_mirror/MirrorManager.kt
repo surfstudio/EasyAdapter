@@ -72,7 +72,9 @@ class MirrorManager(
                     .toSet()
 
             latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
+
             latestMirrorCommit?.also { safeLatestMirrorCommit ->
+                println("latestMirrorCommit ${safeLatestMirrorCommit.shortMessage}")
                 if (safeLatestMirrorCommit.commitTime > rootCommit.commitTime) {
                     throw GradleException("Invalid mirror commit $rootCommitHash: " +
                             "can't be earlier than latest mirror commit ${safeLatestMirrorCommit.standardHash}")
@@ -81,9 +83,11 @@ class MirrorManager(
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
-                mirrorRepository.push()
+                //mirrorRepository.push()
                 return
             }
+            throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
+                    "for repo ${mirrorRepository.repositoryName}")
         } else {
             throw GradleException("Can't get main branch " +
                     "for repo ${mirrorRepository.repositoryName}")
@@ -111,6 +115,7 @@ class MirrorManager(
      */
     private fun applyGitTreeToMirror() {
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
+            println("commit ${commit.type} ${commit.commit.shortMessage}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
@@ -118,6 +123,20 @@ class MirrorManager(
                 else -> null
             })?.let { commit.tags.forEach { tag -> mirrorRepository.tag(it, tag) } }
         }
+    }
+
+    /**
+     * creates start commit of git tree in mirror repository
+     *
+     * @param commit start commit
+     */
+    private fun createMirrorStartCommit(commit: CommitWithBranch): RevCommit {
+        val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
+        println("mirrorCommit ${mirrorCommit.commit.shortMessage}")
+        mirrorRepository.reset(mirrorCommit.commit)
+        mirrorRepository.checkoutBranch(mirrorCommit.branch)
+        commit.mirrorCommitHash = mirrorCommit.commit.name
+        return mirrorCommit.commit
     }
 
     /**
@@ -165,6 +184,7 @@ class MirrorManager(
      */
     private fun merge(commit: CommitWithBranch): RevCommit? {
         standardRepository.reset(commit.commit)
+        println("merge ${commit.commit.shortMessage}")
 
         val mainBranch = commit.branch
         val secondBranch = gitTree.getMergeParents(commit)
@@ -172,10 +192,18 @@ class MirrorManager(
                 .firstOrNull { it != mainBranch }
                 ?: return null
 
-        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return null
+        println("merge $mainBranch ${mirrorRepository.isBranchExists(mainBranch)} $secondBranch ${mirrorRepository.isBranchExists(secondBranch)}")
+
+        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) {
+            mirrorRepository.commit(commit.commit)
+            return commit.commit
+        }
 
         mirrorRepository.checkoutBranch(mainBranch)
         val conflicts = mirrorRepository.merge(secondBranch)
+        conflicts.forEach {
+            println("conflict $it")
+        }
         conflicts.forEach {
             val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
             diffManager.modify(filePath)
