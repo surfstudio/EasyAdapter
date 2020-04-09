@@ -51,14 +51,8 @@ object Components {
                 component.getModules(skipSamplesBuilding)
             }
         } else {
-            val mirrorComponent = getComponentByName(mirrorComponentName)
-            val result = mirrorComponent.libraries + mirrorComponent.samples
-            if (GradlePropertiesManager.hasCommonComponent()) {
-                val commonComponent = getComponentByName(GradlePropertiesManager.commonComponentNameForMirror)
-                result + commonComponent.libraries + commonComponent.samples
-            } else {
-                result
-            }
+            val mirrorComponent = getMirrorComponentByName(mirrorComponentName)
+            mirrorComponent.libraries + mirrorComponent.samples
         }
     }
 
@@ -131,16 +125,6 @@ object Components {
     }
 
     /**
-     * Get component's libraries
-     */
-    @JvmStatic
-    fun getComponentLibraries(componentName: String): List<Library> {
-        return value.firstOrNull { it.name == componentName }
-                ?.libraries
-                ?: throw GradleException("Component $componentName not found")
-    }
-
-    /**
      * Set components for android standard dependencies
      */
     private fun setComponentsForAndroidStandardDependencies() {
@@ -178,8 +162,9 @@ object Components {
         }
     }
 
-    private fun getComponentByName(componentName: String): Component {
-        return value.firstOrNull { it.name == componentName }
-                ?: throw GradleException("Component name $componentName not found")
+    private fun getMirrorComponentByName(mirrorComponentName: String): Component {
+        val mirrorComponent = value.firstOrNull { it.name == mirrorComponentName }
+
+        return mirrorComponent ?: throw GradleException()
     }
 }
