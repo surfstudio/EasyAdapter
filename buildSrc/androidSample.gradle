@@ -37,8 +37,7 @@ android {
 }
 
 dependencies {
-    implementation project(":sample-dagger")
-
+    DependencyConfigurator.projectImplementation(project, "sample-dagger")
     DependencyConfigurator.projectImplementation(project, "dagger-scope")
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "core-ui")
@@ -56,7 +55,7 @@ dependencies {
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 
-    androidTestImplementation project(":sample-common")
+    DependencyConfigurator.projectAndroidTestImplementation(project, "sample-common")
 }
 
 task printTestInstrumentationRunnerName {
