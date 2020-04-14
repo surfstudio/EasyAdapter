@@ -43,7 +43,6 @@ import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
-import ru.surfstudio.android.easyadapter.diff.listener.DiffResultDispatchListener;
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
 import ru.surfstudio.android.easyadapter.item.NoDataItem;
@@ -74,13 +73,11 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
-    private DiffResultDispatchListener diffResultDispatchListener;
-
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
     @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         initLayoutManager(recyclerView.getLayoutManager());
     }
@@ -96,9 +93,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * @see RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)
      */
-    @NonNull
     @Override
-    public final RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return supportedItemControllers.get(viewType).createViewHolder(parent);
     }
 
@@ -106,7 +102,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @see RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)
      */
     @Override
-    public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int adapterPosition) {
+    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int adapterPosition) {
         int position = getListPosition(adapterPosition);
         BaseItem item = items.get(position);
 
@@ -149,7 +145,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @param position position of item
      * @return item's hashcode
      */
-    public final Object getItemHash(int position) {
+    public final String getItemHash(int position) {
         return getItemHashInternal(items, position);
     }
 
@@ -178,18 +174,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * Set {@link DiffResultDispatchListener} which will be invoked
-     * after the {@link DiffUtil.DiffResult} dispatching to the {@link RecyclerView}.
-     *
-     * @param diffResultDispatchListener {@link DiffResultDispatchListener}
-     */
-    public final void setDiffResultDispatchListener(
-            DiffResultDispatchListener diffResultDispatchListener
-    ) {
-        this.diffResultDispatchListener = diffResultDispatchListener;
-    }
-
-    /**
      * Set if we should invoke {@link #autoNotify()} on each call to {@link #setItems(ItemList)}.
      *
      * @see #autoNotify()
@@ -208,8 +192,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * @return state of the property {@link FirstInvisibleItemController} enabled
+     *
      * @see FirstInvisibleItemController
+     *
+     * @return state of the property {@link FirstInvisibleItemController} enabled
      */
     public boolean isFirstInvisibleItemEnabled() {
         return firstInvisibleItemEnabled;
@@ -306,7 +292,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private void dispatchDiffResult(DiffResultBundle diffResultBundle) {
-
         final ItemList newItems = diffResultBundle.getItems();
 
         items.clear();
@@ -316,9 +301,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
             final DiffUtil.DiffResult diffResult = diffResultBundle.getDiffResult();
             Objects.requireNonNull(diffResult);
             diffResult.dispatchUpdatesTo(this);
-            if (diffResultDispatchListener != null) {
-                diffResultDispatchListener.onDiffResultDispatched();
-            }
             lastItemsInfo = diffResultBundle.getNewItemInfo();
         }
 
@@ -365,7 +347,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
         for (int i = 0; i < itemCount; i++) {
             extractedItemsInfo.add(
                     new ItemInfo(
-                            getItemIdInternal(items, i),
+                            getItemStringIdInternal(items, i),
                             getItemHashInternal(items, i)
                     )
             );
@@ -373,12 +355,12 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return extractedItemsInfo;
     }
 
-    private Object getItemIdInternal(List<BaseItem> items, int position) {
+    private String getItemStringIdInternal(List<BaseItem> items, int position) {
         BaseItem item = items.get(getListPosition(items, position));
         return item.getItemController().getItemId(item);
     }
 
-    private Object getItemHashInternal(List<BaseItem> items, int position) {
+    private String getItemHashInternal(List<BaseItem> items, int position) {
         BaseItem item = items.get(getListPosition(items, position));
         return item.getItemController().getItemHash(item);
     }
@@ -484,7 +466,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * Empty first element for saving scroll position after notify... calls.
      */
-    private static class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
+    private class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
         @Override
         public BaseViewHolder createViewHolder(ViewGroup parent) {
             ViewGroup.LayoutParams lp = new RecyclerView.LayoutParams(1, 1); // установить размер 1px, иначе проблемы с swipe-to-refresh и drag&drop https://github.com/airbnb/epoxy/issues/74
