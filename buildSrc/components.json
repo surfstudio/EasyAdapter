@@ -521,6 +521,14 @@
             "type": "api"
           },
           {
+            "name": "datalist-limit-offset",
+            "type": "implementation"
+          },
+          {
+            "name": "datalist-page-count",
+            "type": "implementation"
+          },
+          {
             "name": "logger",
             "type": "implementation"
           },
@@ -719,7 +727,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -830,6 +838,10 @@
         ],
         "android_standard_dependencies": [
           {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
             "name": "rx-extension",
             "type": "implementation"
           }
@@ -850,6 +862,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -883,6 +899,10 @@
           },
           {
             "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.asynclayoutinflater:asynclayoutinflater",
             "type": "implementation"
           }
         ],
