@@ -44,8 +44,7 @@ class MirrorManager(
     private val foldersToMirror = listOf(
             componentDirectory,
             "buildSrc",
-            "common",
-            "gradle"
+            "common"
     )
 
     private var latestMirrorCommit: RevCommit? = null
