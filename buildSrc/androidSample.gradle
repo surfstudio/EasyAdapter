@@ -1,5 +1,6 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.DependencyConfigurator
+import ru.surfstudio.android.build.GradlePropertiesManager
 
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.application'
@@ -36,8 +37,15 @@ android {
     }
 }
 
+configurations.all {
+    if (GradlePropertiesManager.isCurrentComponentAMirror()) {
+        exclude group: "ru.surfstudio.android", module: GradlePropertiesManager.componentMirrorName
+    }
+}
+
 dependencies {
-    DependencyConfigurator.projectImplementation(project, "sample-dagger")
+    implementation project(":sample-dagger")
+
     DependencyConfigurator.projectImplementation(project, "dagger-scope")
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "core-ui")
@@ -55,7 +63,7 @@ dependencies {
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 
-    DependencyConfigurator.projectAndroidTestImplementation(project, "sample-common")
+    androidTestImplementation project(":sample-common")
 }
 
 task printTestInstrumentationRunnerName {
