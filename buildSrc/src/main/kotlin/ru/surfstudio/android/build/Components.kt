@@ -131,16 +131,6 @@ object Components {
     }
 
     /**
-     * Get component's libraries
-     */
-    @JvmStatic
-    fun getComponentLibraries(componentName: String): List<Library> {
-        return value.firstOrNull { it.name == componentName }
-                ?.libraries
-                ?: throw GradleException("Component $componentName not found")
-    }
-
-    /**
      * Set components for android standard dependencies
      */
     private fun setComponentsForAndroidStandardDependencies() {
