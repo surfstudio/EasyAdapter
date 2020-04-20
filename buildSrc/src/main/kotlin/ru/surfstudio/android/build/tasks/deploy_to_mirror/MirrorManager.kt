@@ -37,23 +37,15 @@ class MirrorManager(
     )
 
     private val filesToMirror = listOf(
-            ".gitignore",
             "build.gradle",
             "gradle.properties",
-            "gradlew",
-            "gradlew.bat",
             "settings.gradle"
     )
     private val foldersToMirror = listOf(
             componentDirectory,
             "buildSrc",
-            "common", //todo mirror if needed
+            "common",
             "gradle"
-    )
-    private val uniqueMirrorFiles = listOf(
-            ".git",
-            "README.md",
-            "mirror.properties"
     )
 
     private var latestMirrorCommit: RevCommit? = null
@@ -94,7 +86,7 @@ class MirrorManager(
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
-                //mirrorRepository.push()
+                mirrorRepository.push()
                 return
             }
             throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
@@ -126,7 +118,6 @@ class MirrorManager(
      */
     private fun applyGitTreeToMirror() {
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
-            println("${commit.type} ${commit.commit.shortMessage}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
@@ -191,7 +182,7 @@ class MirrorManager(
     private fun merge(commit: CommitWithBranch): RevCommit? {
         val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
         if (changes.isEmpty()) return null
-
+        
         standardRepository.reset(commit.commit)
 
         val mainBranch = commit.branch
