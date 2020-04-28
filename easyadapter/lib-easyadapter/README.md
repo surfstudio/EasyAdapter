@@ -1,4 +1,8 @@
-# EasyAdapter
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
+
+# Easy adapter
 Является развитием проекта [EasyAdapter](https://github.com/MaksTuev/EasyAdapter).
 
 Адаптер для легкого размещения сложного контента в RecyclerView. 
@@ -11,7 +15,9 @@
 3. Создается и заполняется `ItemList` парами данные+контроллер
 4. Заполненный экземпляр `ItemList` передается в `EasyAdapter` через метод `setItems()`
 
-[Пример использования](../sample)
+[Пример использования](../easyadapter-sample)
+
+[Пример использования в приложении](../network-sample)
 
 # Подключение
 Gradle:
