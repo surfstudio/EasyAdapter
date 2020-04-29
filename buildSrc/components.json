@@ -395,7 +395,7 @@
   {
     "id": "converter-gson",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "deprecated/converter-gson",
     "libs": [
@@ -460,7 +460,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 17,
+    "unstable_version": 20,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -600,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 12,
+    "unstable_version": 14,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -1142,7 +1142,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 9,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1326,7 +1326,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 4,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -1514,7 +1514,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1526,6 +1526,14 @@
           {
             "name": "androidx.recyclerview:recyclerview",
             "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
           },
           {
             "name": "com.google.android.material:material",
@@ -1838,7 +1846,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 23,
+    "unstable_version": 24,
     "stable": false,
     "dir": "template",
     "libs": [],
