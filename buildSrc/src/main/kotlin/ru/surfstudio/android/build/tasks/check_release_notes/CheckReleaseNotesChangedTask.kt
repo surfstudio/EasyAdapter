@@ -18,9 +18,10 @@ import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
     companion object {
-        const val MD_FILE_REGEX = "/*\\.md"
-        const val GRADLE_FILE_REGEX = "/*\\.gradle"
+        const val MD_FILE_REGEX = "\\.md"
+        const val GRADLE_FILE_REGEX = "\\.gradle"
         const val SAMPLE_FILE_REGEX = "/sample/"
+        const val TEST_FILE_REGEX = "/(test|androidTest)/"
     }
 
     private lateinit var revisionToCompare: String
@@ -42,7 +43,8 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
                 .getChangeInformationForComponents()
 
         val currentComponents = Components.value
-        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents).provideComponentsWithDiff()
+        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents)
+                .provideComponentsWithDiff()
 
         currentComponents.forEach { component ->
             val resultByConfig = componentsChangeResults.find { it.componentName == component.name }
@@ -51,12 +53,13 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
                     ?: throw ComponentNotFoundException(component.name)
 
             if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
-                val diffs = componentsWithDiffs.getValue(component)
+                val diffs = componentsWithDiffs[component] ?: return
 
                 val isChangesNotRequireDescription = diffs.all {
                     MD_FILE_REGEX.toRegex().containsMatchIn(it)
                             || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
                             || SAMPLE_FILE_REGEX.toRegex().containsMatchIn(it)
+                            || TEST_FILE_REGEX.toRegex().containsMatchIn(it)
                 }
                 if (!isChangesNotRequireDescription) {
                     if (isComponentHasDiffs(componentsWithDiffs, component)) {
