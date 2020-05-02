@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -241,14 +241,6 @@
             "type": "implementation"
           },
           {
-            "name": "core-navigation",
-            "type": "implementation"
-          },
-          {
-            "name": "permission",
-            "type": "implementation"
-          },
-          {
             "name": "connection",
             "type": "implementation"
           },
@@ -266,6 +258,10 @@
           },
           {
             "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter-pagination",
             "type": "implementation"
           },
           {
@@ -295,14 +291,6 @@
           },
           {
             "name": "core-ui",
-            "type": "api"
-          },
-          {
-            "name": "core-navigation",
-            "type": "api"
-          },
-          {
-            "name": "permission",
             "type": "api"
           },
           {
@@ -472,7 +460,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 20,
+    "unstable_version": 22,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -493,10 +481,6 @@
         "android_standard_dependencies": [
           {
             "name": "core-ui",
-            "type": "implementation"
-          },
-          {
-            "name": "core-navigation",
             "type": "implementation"
           },
           {
@@ -578,10 +562,6 @@
             "type": "implementation"
           },
           {
-            "name": "core-navigation",
-            "type": "implementation"
-          },
-          {
             "name": "core-mvp",
             "type": "implementation"
           },
@@ -620,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 14,
+    "unstable_version": 15,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -669,10 +649,6 @@
           },
           {
             "name": "core-ui",
-            "type": "implementation"
-          },
-          {
-            "name": "core-navigation",
             "type": "implementation"
           },
           {
@@ -728,6 +704,10 @@
             "type": "implementation"
           },
           {
+            "name": "com.google.android.play:core",
+            "type": "implementation"
+          },
+          {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
           },
@@ -768,106 +748,6 @@
     ],
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/Core-ui"
-  },
-  {
-    "id": "core-navigation",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": false,
-    "dir": "core-navigation",
-    "libs": [
-      {
-        "name": "core-navigation",
-        "dir": "lib-core-navigation",
-        "artifact_name": "core-navigation",
-        "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          },
-          {
-            "name": "com.google.android.play:core",
-            "type": "implementation"
-          }
-        ],
-        "android_standard_dependencies": [
-          {
-            "name": "core-ui",
-            "type": "implementation"
-          },
-          {
-            "name": "logger",
-            "type": "implementation"
-          },
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          },
-          {
-            "name": "activity-holder",
-            "type": "implementation"
-          }
-        ]
-      }
-    ],
-    "samples": [
-      {
-        "name": "core-navigation-sample",
-        "dir": "sample"
-      }
-    ],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
-    "id": "permission",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": false,
-    "dir": "permission",
-    "libs": [
-      {
-        "name": "permission",
-        "dir": "lib-permission",
-        "artifact_name": "permission",
-        "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          }
-        ],
-        "android_standard_dependencies": [
-          {
-            "name": "logger",
-            "type": "implementation"
-          },
-          {
-            "name": "core-ui",
-            "type": "implementation"
-          },
-          {
-            "name": "core-navigation",
-            "type": "implementation"
-          },
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          },
-          {
-            "name": "activity-holder",
-            "type": "implementation"
-          }
-        ]
-      }
-    ],
-    "samples": [
-      {
-        "name": "permission-sample",
-        "dir": "sample"
-      }
-    ],
-    "has_mirror": false,
-    "mirror_repo": ""
   },
   {
     "id": "custom-view",
@@ -1021,7 +901,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 12,
+    "unstable_version": 13,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -1044,6 +924,27 @@
           }
         ],
         "android_standard_dependencies": []
+      },
+      {
+        "name": "easyadapter-pagination",
+        "dir": "lib-easyadapter-pagination",
+        "artifact_name": "easyadapter-pagination",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [
@@ -1170,10 +1071,6 @@
             "type": "implementation"
           },
           {
-            "name": "permission",
-            "type": "implementation"
-          },
-          {
             "name": "rx-extension",
             "type": "implementation"
           }
@@ -1245,7 +1142,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1301,6 +1198,10 @@
             "type": "implementation"
           },
           {
+            "name": "easyadapter-pagination",
+            "type": "implementation"
+          },
+          {
             "name": "connection",
             "type": "implementation"
           },
@@ -1314,10 +1215,6 @@
           },
           {
             "name": "core-ui",
-            "type": "implementation"
-          },
-          {
-            "name": "core-navigation",
             "type": "implementation"
           }
         ]
@@ -1391,10 +1288,6 @@
             "type": "implementation"
           },
           {
-            "name": "core-navigation",
-            "type": "implementation"
-          },
-          {
             "name": "mvp-widget",
             "type": "implementation"
           },
@@ -1433,7 +1326,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -1559,14 +1452,6 @@
             "type": "implementation"
           },
           {
-            "name": "core-navigation",
-            "type": "implementation"
-          },
-          {
-            "name": "permission",
-            "type": "implementation"
-          },
-          {
             "name": "logger",
             "type": "implementation"
           },
@@ -1629,7 +1514,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1641,6 +1526,14 @@
           {
             "name": "androidx.recyclerview:recyclerview",
             "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
           },
           {
             "name": "com.google.android.material:material",
@@ -1890,10 +1783,6 @@
             "type": "implementation"
           },
           {
-            "name": "core-navigation",
-            "type": "implementation"
-          },
-          {
             "name": "mvp-dialog",
             "type": "implementation"
           },
@@ -1957,7 +1846,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 24,
+    "unstable_version": 25,
     "stable": false,
     "dir": "template",
     "libs": [],
