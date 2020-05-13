@@ -23,7 +23,7 @@ allprojects {
 
 And then, add the library dependency to your module: 
 ```
-implementation: 'ru.surfstudio.android:easyadapter:X.Y.Z'
+implementation 'ru.surfstudio.android:easyadapter:X.Y.Z'
 ``` 
 
 ## Getting started
