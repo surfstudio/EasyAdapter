@@ -6,7 +6,10 @@
 [![Android Standard][android_standard_icon]][android_standard_link]
 [![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
 
-Short module description: TODO
+This is adapter which simplifies the process of adding a complex content
+to RecyclerView.
+
+[Full description][readme]
 
 ## Download
 This library is available through JCenter. 
@@ -28,7 +31,7 @@ implementation 'ru.surfstudio.android:easyadapter:X.Y.Z'
 
 ## Getting started
 
-Short code examples: ...
+[Sample][sample]
 
 ## Surf Android Standard
 
@@ -64,7 +67,9 @@ limitations under the License.
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
 [wiki_link]: $WIKI_LINK$
-[release_notes]: /$MODULE_NAME$/RELEASE_NOTES.md
+[release_notes]: /easyadapter/RELEASE_NOTES.md
+[readme]: /easyadapter/lib-easyadapter/README.md
+[sample]: /easyadapter/sample
 [issue_tracker]: $ISSUE_TRACKER$
 
 [android_standard_icon]: https://img.shields.io/badge/Android%20Standard-Repo-brightgreen 
