@@ -1,5 +1,10 @@
-[TOC]
 # Easy-adapter Release Notes
+
+- [1.1.0-alpha](#110-alpha)
+- [1.0.0](#100)
+- [0.3.0](#030)
+- [0.2.1](#021)
+
 ## 1.1.0-alpha
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.
@@ -31,6 +36,7 @@
   * Move `AnimatableViewHolder` and `BaseItemAnimator` to
     `recycler-extension` module
   * Rename `BaseItemAnimator` to `ViewHolderItemAnimator`
+* ANDDEP-793 added component readme
 ##### Easyadapter Pagination
 * ANDDEP-1038 Add easyadapter-pagination module
 ## 1.0.0
