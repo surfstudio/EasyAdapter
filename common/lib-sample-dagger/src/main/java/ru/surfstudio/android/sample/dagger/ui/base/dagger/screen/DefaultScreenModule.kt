@@ -12,27 +12,24 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
- * Common module for dependencies of Activity and Fragment
+ * Общий модуль для зависимостей Activity и Fragment
  */
 @Module
 abstract class DefaultScreenModule {
 
     @PerScreen
     @Provides
-    internal fun provideBaseDependency(
-            schedulersProvider: SchedulersProvider,
-            screenState: ScreenState,
-            eventDelegateManager: ScreenEventDelegateManager,
-            errorHandler: ErrorHandler,
-            connectionProvider: ConnectionProvider,
-            activityNavigator: ActivityNavigator
-    ): BasePresenterDependency {
+    internal fun provideBaseDependency(schedulersProvider: SchedulersProvider,
+                                       screenState: ScreenState,
+                                       eventDelegateManager: ScreenEventDelegateManager,
+                                       errorHandler: ErrorHandler,
+                                       connectionProvider: ConnectionProvider,
+                                       activityNavigator: ActivityNavigator): BasePresenterDependency {
         return BasePresenterDependency(schedulersProvider,
                 screenState,
                 eventDelegateManager,
                 errorHandler,
                 connectionProvider,
-                activityNavigator
-        )
+                activityNavigator)
     }
 }

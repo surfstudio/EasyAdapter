@@ -1,10 +1,10 @@
 # EasyAdapter Pagination
-This module contains a class for adapter of list with pagination which
-is based on `EasyAdapter`.
+Содержит базовый класс адаптера для списка с пагинацией на основе
+`EasyAdapter`.
 
-[Sample](../sample)
+[Пример использования](../sample)
 
-# Usage
+# Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:easyadapter-pagination:X.X.X"

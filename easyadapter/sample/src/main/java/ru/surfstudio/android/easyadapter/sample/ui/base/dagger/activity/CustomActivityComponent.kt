@@ -7,6 +7,10 @@ import ru.surfstudio.android.easyadapter.sample.interactor.FirstDataRepository
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 
+/**
+ * Компонент для @PerActivity скоупа
+ */
+
 @PerActivity
 @Component(dependencies = [(CustomAppComponent::class)],
         modules = [(DefaultActivityModule::class)])

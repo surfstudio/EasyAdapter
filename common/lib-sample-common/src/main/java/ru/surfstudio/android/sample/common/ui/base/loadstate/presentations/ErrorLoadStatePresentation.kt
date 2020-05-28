@@ -14,7 +14,7 @@ import ru.surfstudio.android.sample.common.R
 import ru.surfstudio.android.sample.common.ui.base.loadstate.ErrorLoadState
 
 /**
- * Presentation of ErrorLoadState with a picture, title, subtitle and button
+ * Представление состояния ErrorLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
  */
 class ErrorLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
         SimpleLoadStatePresentation<ErrorLoadState>() {

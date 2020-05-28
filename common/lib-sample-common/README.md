@@ -1,16 +1,15 @@
 # Sample Common
-Module which is used to create samples for another modules, which don't
-require Dagger configuration.
+Модуль, используемый для создания примеров к другим модулям,
+которым не требуется конфигурация Dagger.
 
-This module contains common resources for every sample.
+Содержит общие ресурсы для всех примеров.
 
-# Usage
-Example of dependencies for `build.gradle` of sample which is used this
-module:
+# Подключение
+Пример зависимостей для build.gradle примера, использующего данный модуль:
 
 ```
 dependencies {
-    //module-name - module-name for sample creation
+    //module-name - имя модуля, для которого создается пример
     implementation project(':module-name')
     implementation project(':sample-common')
 

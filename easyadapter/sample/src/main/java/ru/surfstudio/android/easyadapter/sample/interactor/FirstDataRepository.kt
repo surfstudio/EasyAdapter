@@ -5,8 +5,8 @@ import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import javax.inject.Inject
 
-// aliases for two DataList distinguishing. In real project only one will be used
-typealias DataListPageCount<T> = DataList<T>
+//алиасы для различения двух дата-листов. В реальном проекте используется один из них.
+typealias DataListPageCount<T> = ru.surfstudio.android.datalistpagecount.domain.datalist.DataList<T>
 typealias DataListLimitOffset<T> = ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList<T>
 
 class FirstDataRepository @Inject constructor() {
@@ -19,8 +19,8 @@ class FirstDataRepository @Inject constructor() {
 
         const val PAGES_COUNT = DATA_SIZE / PAGE_SIZE
 
-        // page number which will be used for PaginationState.ERROR setting
-        // in order to demonstrate adapter's footer
+        // Номер страницы, для которого будет установлен PaginationState.ERROR
+        // для демонстрации футера адаптера
         const val ERROR_PAGE_NUMBER = PAGES_COUNT / 2
     }
 
@@ -29,7 +29,7 @@ class FirstDataRepository @Inject constructor() {
     }
 
     /**
-     * Load data for page number
+     * Загрузка данных по номеру страницы
      */
     fun getDataByPage(page: Int): Observable<DataListPageCount<FirstData>> {
         val startIndex = PAGE_SIZE * (page - 1)
@@ -44,7 +44,7 @@ class FirstDataRepository @Inject constructor() {
     }
 
     /**
-     * Load data for offset
+     * Загрузка данных по смещению
      */
     fun getDataByOffset(offset: Int, limit: Int = 15) =
             Observable.just(DataListLimitOffset(

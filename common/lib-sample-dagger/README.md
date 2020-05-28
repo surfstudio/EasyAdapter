@@ -1,16 +1,16 @@
 # Sample Dagger
-Module which is used to create samples for another modules, which
-require Dagger configuration.
+Модуль, используемый для создания примеров к другим модулям,
+использующим конфигурацию Dagger.
 
-This module contains base Dagger configuration.
+Содержит базовую конфигурацию Dagger.
 
-# Usage
-## Default configuration
-If sample's Dagger configuration doesn't require custom dependencies,
-then just inherit the screen configurators from the base configurator
-which is supplied by this module.
+# Использование
+## Конфигурация, используемая по умолчанию
+Если конфигурация Dagger для примера не отличается от конфигурации данного модуля
+(если не нужно добавлять кастомные зависимости), то достаточно наследовать
+конфигураторы экранов от базового конфигуратора, поставляемым данным модулем.
 
-## Sample
+## Пример
 ```
 internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen
@@ -35,24 +35,23 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
 }
 ```
 
-## Custom configuration
-If sample's Dagger configuration is different from this module's
-configuration, it's required to create classes `CustomAppComponent` and
-`CustomActivityComponent` which have to be inherited from
-`DefaultAppComponent` and `DefaultActivityComponent`, and then add
-necessary dependencies which will be supplied by custom modules.
+## Кастомная конфигурация модуля
+Если конфигурация Dagger для примера отличается от конфигурации данного модуля,
+необходимо добавить создать классы ```CustomAppComponent```
+и ```CustomActivityComponent```, отнаследовав их от классов
+```DefaultAppComponent``` и ```DefaultActivityComponent```, и добавить
+необходимые зависимости, которые должны предоставлять кастомные модули.
 
-If custom components are created, it's required to create custom class
-for application (`CustomApp`) and custom configurators for Activity and
-Fragment.
+Создав кастомные компоненты, необходимо также создать кастомные классы
+для приложения (```CustomApp```) и кастомные конфигураторы для Activity и Fragment.
 
-## Sample
+## Пример
 ```
 @PerApplication
 @Component(modules = [
-    DefaultAppModule::class,        // required module for all components
-    DefaultSharedPrefModule::class, // if needed
-    CustomModule::class])           // list of sample's custom modules
+    DefaultAppModule::class,        // обязательный модуль для всех компонентов
+    DefaultSharedPrefModule::class, // по мере необходимости
+    CustomModule::class])           // список кастомных модулей конкретного примера
 interface CustomAppComponent : DefaultAppComponent {
     fun customStorage(): CustomStorage
 }
@@ -84,16 +83,15 @@ public class CustomActivityConfigurator
 }
 ```
 
-# Usage
-With usage of `sample-dagger` you don't need to add dependency for
-`sample-common`.
+# Подключение
+При использовании ```sample-dagger``` модуль ```sample-common``` 
+отдельно подключать не нужно.
 
-Example of dependencies for `build.gradle` of sample which is used this
-module:
+Пример зависимостей для build.gradle примера, использующего данный модуль:
 
 ```
 dependencies {
-    //module-name - module-name for sample creation
+    //module-name - имя модуля, для которого создается пример
     implementation project(':module-name')
     implementation project(':sample-dagger')
 

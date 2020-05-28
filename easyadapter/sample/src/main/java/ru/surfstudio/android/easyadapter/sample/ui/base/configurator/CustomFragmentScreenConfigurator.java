@@ -8,8 +8,9 @@ import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.CustomAc
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule;
 
 /**
- * Base configurator for screen which is based on Fragment
+ * Базовый конфигуратор для экрана, основанного на фрагменте
  */
+
 public abstract class CustomFragmentScreenConfigurator
         extends BaseFragmentViewConfigurator<CustomActivityComponent, DefaultFragmentScreenModule> {
 

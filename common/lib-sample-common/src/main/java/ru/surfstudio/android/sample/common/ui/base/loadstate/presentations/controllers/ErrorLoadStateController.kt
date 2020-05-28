@@ -5,9 +5,11 @@ import ru.surfstudio.android.easyadapter.controller.NoDataItemController
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
 import ru.surfstudio.android.sample.common.R
 
+
 /**
- * Controller for empty state in list
- */
+ * Контроллер для пустых состний в списках
+ * */
+
 class ErrorLoadStateController : NoDataItemController<ErrorLoadStateController.Holder>() {
 
     override fun createViewHolder(parent: ViewGroup) = Holder(parent)

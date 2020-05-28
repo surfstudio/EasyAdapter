@@ -1,7 +1,7 @@
 package ru.surfstudio.android.sample.dagger.app.exceptions;
 
 /**
- * Base class for all errors during server interaction
+ * базовый класс для всех ошибок, возникающих при работе с сервером
  */
 public abstract class NetworkException extends RuntimeException {
     public NetworkException() {

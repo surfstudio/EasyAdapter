@@ -1,7 +1,7 @@
 package ru.surfstudio.android.sample.dagger.app.exceptions;
 
 /**
- * Response parsing error
+ * ошибка парсинга ответа
  */
 public class ConversionException extends NetworkException {
     public ConversionException(String message, Throwable cause) {
