@@ -31,7 +31,6 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     private fun checkForConfigurationChanges(currentRevision: String) {
         val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
-
         if (componentsChangeResults.isNotEmpty()) {
             checkStableComponentsChanged(componentsChangeResults)
         }
@@ -39,8 +38,7 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
 
     private fun checkForFileChanges(currentRevision: String) {
         val componentsChangeFilesResults = ComponentsFilesChecker(currentRevision, revisionToCompare)
-                .getChangeInformationForComponents(ignoreNotLibFiles = true)
-
+                .getChangeInformationForComponents(ignoreReleaseNotesChanges = true)
         if (componentsChangeFilesResults.isNotEmpty()) {
             checkStableComponentsChanged(componentsChangeFilesResults)
         }
@@ -63,13 +61,12 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     }
 
     private fun createOutputForChangedComponents(results: List<ComponentCheckResult>): String {
-        return results.joinToString(separator = "/n") {
-            "${it.componentName} ${it.reasonOfComponentChange.reason}"
-        }
+        return results.map {
+            "${it.componentName}  ${it.reasonOfComponentChange.reason}"
+        }.joinToString(separator = "/n")
     }
 
     private fun fail(reason: String) {
-        val message = "Make following components unstable to pass this stage:\n".plus(reason)
-        throw GradleException(message)
+        throw GradleException(reason)
     }
 }
