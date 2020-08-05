@@ -872,7 +872,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -2081,7 +2081,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],
